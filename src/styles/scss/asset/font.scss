@@ -1,0 +1,9 @@
+@import "_mixin.scss";
+
+@include font-face(Sukhumvit_Bol, "/fonts/SukhumvitTadmai_Bol");
+@include font-face(Sukhumvit_Reg, "/fonts/SukhumvitTadmai_Tex");
+@include font-face(Sukhumvit_Thi, "/fonts/SukhumvitTadmai_Thi");
+
+$font_Regular: "Sukhumvit_Reg";
+$font_Bold: "Sukhumvit_Bol";
+$font_Thin: "Sukhumvit_Thi";
