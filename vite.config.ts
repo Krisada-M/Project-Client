@@ -10,5 +10,8 @@ export default ({ mode }) => {
     server: {
       port: 3560,
     },
+    build: {
+      chunkSizeWarningLimit: 1600,
+    },
   });
 };

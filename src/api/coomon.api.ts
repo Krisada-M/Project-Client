@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API,
+  baseURL: process.env.REACT_APP_ENDPOINT,
   headers: {
     "Content-type": "application/json",
   },
@@ -9,7 +9,7 @@ const Api = axios.create({
 
 function Auth(token: string) {
   return axios.create({
-    baseURL: import.meta.env.VITE_BASE_API,
+    baseURL: process.env.REACT_APP_ENDPOINT,
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -19,7 +19,7 @@ function Auth(token: string) {
 
 function AuthCustom({ token }: { token: string }) {
   return axios.create({
-    baseURL: import.meta.env.VITE_BASE_API,
+    baseURL: process.env.REACT_APP_ENDPOINT,
     headers: {
       "Content-type": "application/json",
       userToken: token,
