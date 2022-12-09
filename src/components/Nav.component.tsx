@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   Checkbox,
+  Col,
   Dropdown,
   FormElement,
   Grid,
@@ -25,7 +26,6 @@ import {
   IconSunHigh,
   IconUser
 } from "@tabler/icons";
-import { Col } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
 import CryptoJS from "crypto-js";
 import { useTheme as useNextTheme } from "next-themes";
@@ -34,12 +34,18 @@ import { useCookies } from "react-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { userLogin, userRegister } from "../api/user.api";
-import { useTitleStore, useTokenStore, useUserStore } from "../data/store";
+import {
+  useSignupModal,
+  useTitleStore,
+  useTokenStore,
+  useUserStore
+} from "../data/store";
 import { signinData, signupData } from "../types/user.type";
 export const Nav = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
-  const [modalSignup, setModalSignup] = useState(false);
+  const { open } = useSignupModal();
+  const [modalSignup, setModalSignup] = useState(open);
   const [modalSignin, setModalSignin] = useState(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [usernameError, setUsernameError] = useState<boolean>(false);
@@ -79,6 +85,10 @@ export const Nav = () => {
     setconfirm(false);
     removecookie("Salon");
   };
+  useEffect(() => {
+    setModalSignup(open);
+  }, [open]);
+
   const submitLogin = () => {
     setLoadingLogin(true);
     userLogin(signup)
@@ -207,7 +217,7 @@ export const Nav = () => {
           }}
         >
           <Image
-            src="./images/salon.png"
+            src={`${import.meta.env.VITE_STORAGE_URL}images/salon.png`}
             alt="Default Image"
             width={26}
             height={26}

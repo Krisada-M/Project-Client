@@ -9,13 +9,11 @@ import {
   Spacer,
   Text
 } from "@nextui-org/react";
-import "antd/dist/antd.css";
+import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CarouselSalon } from "../../components/Carousel.component";
 import { useTitleStore } from "../../data/store";
 import { Main } from "../../styles/ui/Content";
-import { Motion } from "../../styles/ui/Layout";
 
 const Home = () => {
   const { storeTitle } = useTitleStore();
@@ -23,9 +21,10 @@ const Home = () => {
     storeTitle("Home");
   }, []);
   let navigate = useNavigate();
-
+  const SalonImg1 =
+    "https://salonstore.s3.ap-southeast-1.amazonaws.com/images/salonImg1.jpg";
   return (
-    <Motion>
+    <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
       <Main css={{ position: "relative" }}>
         <Container xl css={{ position: "relative", h: "85vh" }}>
           <Row
@@ -35,7 +34,24 @@ const Home = () => {
           >
             <Col>
               <Card css={{ mw: "100vw", maxHeight: "80vh" }}>
-                <CarouselSalon />
+                <Card.Header css={{ position: "absolute", zIndex: 50, top: 5 }}>
+                  <Col>
+                    <Text
+                      size={36}
+                      weight="bold"
+                      transform="uppercase"
+                      color="#ffffffAA"
+                    >
+                      New
+                    </Text>
+                    <Text h3 color="white">
+                      Acme camera
+                    </Text>
+                  </Col>
+                </Card.Header>
+                <Card.Body css={{ p: 0 }}>
+                  <Card.Image objectFit="cover" src={SalonImg1} />
+                </Card.Body>
               </Card>
             </Col>
           </Row>
@@ -189,7 +205,7 @@ const Home = () => {
           </Row>
         </Container>
       </Main>
-    </Motion>
+    </motion.div>
   );
 };
 

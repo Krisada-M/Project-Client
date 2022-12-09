@@ -1,7 +1,5 @@
 import { createTheme, NextUIProvider } from "@nextui-org/react";
-import "antd/dist/antd.css";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import React from "react";
 import { CookiesProvider } from "react-cookie";
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
@@ -38,13 +36,11 @@ const mainApp = (
           dark: darkTheme.className,
         }}
       >
-        <React.StrictMode>
-          <NextUIProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </NextUIProvider>
-        </React.StrictMode>
+        <NextUIProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </NextUIProvider>
       </NextThemesProvider>
     </CookiesProvider>
   </HelmetProvider>

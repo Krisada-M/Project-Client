@@ -42,7 +42,7 @@ export type RespData = {
 };
 
 export interface userProfile {
-  Books: Book[];
+  Books: Booking[];
   CreatedAt: string;
   DeletedAt: string;
   ID: number;
@@ -56,7 +56,7 @@ export interface userProfile {
   status: string;
 }
 
-export interface Book {
+export interface Booking {
   ID: number;
   CreatedAt: string;
   UpdatedAt: string;

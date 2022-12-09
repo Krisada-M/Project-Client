@@ -3,6 +3,7 @@ import { IconUserSearch } from "@tabler/icons";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { barberListAPI, barberLiveSearch } from "../../api/barber.api";
+import { serviceListAPI } from "../../api/service.api";
 import { ProfileCard } from "../../components/ProfileCard.component";
 import { ProfileCardLoad } from "../../components/ProfileCardLoad.component";
 import { useTitleStore } from "../../data/store";
@@ -14,6 +15,12 @@ const Barber = () => {
   const [iconcolor, setIconColor] = useState<string>("#889096");
   const [searchValue, setSearchValue] = useState<string>("");
   const [barberData, setBarberData] = useState<object[]>([]);
+  const [serviceListData, setServiceListData] = useState([
+    {
+      service_name: "",
+    },
+  ]);
+
   const [selectedService, setSelectedService] = useState<any>(
     new Set(["Select"])
   );
@@ -33,7 +40,9 @@ const Barber = () => {
   useEffect(() => {
     const barberList = async () => {
       const { data } = await barberListAPI();
+      const service = await serviceListAPI();
       setBarberData(data.Data.barber_detail);
+      setServiceListData(service.data.Data.service_list);
     };
     barberList();
   }, []);
@@ -42,17 +51,18 @@ const Barber = () => {
     const barberSearch = async () => {
       const { data } = await barberLiveSearch({
         keyword: searchValue,
+        service: selectedServiceValue,
         gender: selectedGenderValue,
       });
       setBarberData(data.Data.barber_detail);
     };
     barberSearch();
-  }, [searchValue, selectedGenderValue, selectedService]);
+  }, [searchValue, selectedGenderValue, selectedServiceValue]);
 
   const dropdownItem = [
     {
       title: "Service",
-      itemSelect: [{ key: "1", name: "1" }],
+      itemSelect: serviceListData,
       variable: {
         get: selectedService,
         set: setSelectedService,
@@ -61,10 +71,7 @@ const Barber = () => {
     },
     {
       title: "Gender",
-      itemSelect: [
-        { key: "ชาย", name: "ชาย" },
-        { key: "หญิง", name: "หญิง" },
-      ],
+      itemSelect: [{ service_name: "ชาย" }, { service_name: "หญิง" }],
       variable: {
         get: selectedGender,
         set: setSelectedGender,
@@ -140,8 +147,8 @@ const Barber = () => {
                             >
                               {data.itemSelect.map((item) => {
                                 return (
-                                  <Dropdown.Item key={item.key}>
-                                    {item.name}
+                                  <Dropdown.Item key={item.service_name}>
+                                    {item.service_name}
                                   </Dropdown.Item>
                                 );
                               })}

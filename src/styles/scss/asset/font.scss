@@ -1,8 +1,9 @@
 @import "_mixin.scss";
+$font_url: "https://salonstore.s3.ap-southeast-1.amazonaws.com";
 
-@include font-face(Sukhumvit_Bol, "/fonts/SukhumvitTadmai_Bol");
-@include font-face(Sukhumvit_Reg, "/fonts/SukhumvitTadmai_Tex");
-@include font-face(Sukhumvit_Thi, "/fonts/SukhumvitTadmai_Thi");
+@include font-face(Sukhumvit_Bol, $font_url + "/fonts/SukhumvitTadmai_Bol");
+@include font-face(Sukhumvit_Reg, $font_url + "/fonts/SukhumvitTadmai_Tex");
+@include font-face(Sukhumvit_Thi, $font_url + "/fonts/SukhumvitTadmai_Thi");
 
 $font_Regular: "Sukhumvit_Reg";
 $font_Bold: "Sukhumvit_Bol";

@@ -10,6 +10,11 @@ export type titleStore = {
   storeTitle: (title: string) => void;
 };
 
+export type signupModal = {
+  open: boolean;
+  storeOpen: (open: boolean) => void;
+};
+
 export type dataStore = {
   init: string;
   initAuth: resultUser;
