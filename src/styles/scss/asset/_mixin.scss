@@ -1,88 +1,96 @@
 @mixin font-face($name, $path, $exts: eot svg ttf woff) {
-    $src: null;
+  $src: null;
 
-    $extmods: (
-        eot: "?",
-        svg: "#" + str-replace($name, " ", "_"),
+  $extmods: (
+    eot: "?",
+    svg: "#" + str-replace($name, " ", "_"),
+  );
+
+  $formats: (
+    otf: "opentype",
+    ttf: "truetype",
+  );
+
+  @each $ext in $exts {
+    $extmod: if(
+      map-has-key($extmods, $ext),
+      $ext + map-get($extmods, $ext),
+      $ext
     );
-
-    $formats: (
-        otf: "opentype",
-        ttf: "truetype",
+    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+    $src: append(
+      $src,
+      url(quote($path + "." + $extmod)) format(quote($format)),
+      comma
     );
+  }
 
-    @each $ext in $exts {
-        $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
-        $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
-        $src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
-    }
-
-    @font-face {
-        font-family: quote($name);
-        font-weight: normal;
-        font-style: normal;
-        src: $src;
-    }
+  @font-face {
+    font-family: quote($name);
+    font-weight: normal;
+    font-style: normal;
+    src: $src;
+  }
 }
 
 @mixin body {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 @mixin animate($animate) {
-    transition: $animate;
-    -webkit-transition: $animate;
-    -moz-transition: $animate;
-    -o-transition: $animate;
+  transition: $animate !important;
+  -webkit-transition: $animate !important;
+  -moz-transition: $animate !important;
+  -o-transition: $animate !important;
 }
 
 @mixin center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin transformY($x, $input) {
-    @for $i from 1 through 2 {
-        &:nth-child(#{$i}) {
-            transform: translateY(#{($i * $x) + $input}px);
-        }
+  @for $i from 1 through 2 {
+    &:nth-child(#{$i}) {
+      transform: translateY(#{($i * $x) + $input}px);
     }
+  }
 }
 
 @mixin Mobile {
-    @media screen and (max-width: 480px) {
-        @content;
-    }
+  @media screen and (max-width: 480px) {
+    @content;
+  }
 }
 
 @mixin Tablets {
-    @media screen and (max-width: 768px) {
-        @content;
-    }
+  @media screen and (max-width: 768px) {
+    @content;
+  }
 }
 
 @mixin Laptops {
-    @media screen and (max-width: 1024px) {
-        @content;
-    }
+  @media screen and (max-width: 1024px) {
+    @content;
+  }
 }
 
 @mixin Desktops {
-    @media screen and (max-width: 1200px) {
-        @content;
-    }
+  @media screen and (max-width: 1200px) {
+    @content;
+  }
 }
 
 @mixin Fixheight {
-    @media (max-height: 700px) {
-        @content;
-    }
+  @media (max-height: 700px) {
+    @content;
+  }
 }
 
 @mixin recpic($file) {
-    background: url($file);
-    background-position: center;
-    background-size: cover;
+  background: url($file);
+  background-position: center;
+  background-size: cover;
 }

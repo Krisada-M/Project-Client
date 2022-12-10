@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Button,
   Checkbox,
   Col,
@@ -271,13 +272,23 @@ export const Nav = () => {
               placement="bottom"
             >
               <Navbar.Item hideIn={"xs"}>
-                <Button
-                  light
-                  color="primary"
-                  auto
-                  size={"sm"}
-                  icon={<IconBell />}
-                />
+                <Dropdown>
+                  <Badge color="error" content={5} shape="circle">
+                    <Dropdown.Button
+                      light
+                      color="primary"
+                      auto
+                      size={"sm"}
+                      icon={<IconBell />}
+                    ></Dropdown.Button>
+                  </Badge>
+                  <Dropdown.Menu aria-label="Static Actions">
+                    <Dropdown.Item>Delete file</Dropdown.Item>
+                    <Dropdown.Item key="delete" withDivider>
+                      Delete file
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Navbar.Item>
             </Tooltip>
             <Dropdown placement="bottom-right">
@@ -307,11 +318,6 @@ export const Nav = () => {
                 </Dropdown.Item>
                 <Dropdown.Item key="edit" withDivider>
                   My Profile
-                </Dropdown.Item>
-                <Dropdown.Item key="team_settings">Team Settings</Dropdown.Item>
-                <Dropdown.Item key="analytics">Analytics</Dropdown.Item>
-                <Dropdown.Item key="help_and_feedback" withDivider>
-                  Help & Feedback
                 </Dropdown.Item>
                 <Dropdown.Item key="logout" withDivider color="error">
                   Log Out
