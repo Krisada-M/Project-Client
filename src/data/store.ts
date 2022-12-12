@@ -14,6 +14,12 @@ export const useTokenStore = create<tokenStore>((set) => ({
       ...state,
       token,
     })),
+  type: "",
+  storeType: (type: string) =>
+    set((state) => ({
+      ...state,
+      type,
+    })),
 }));
 
 export const useTitleStore = create<titleStore>((set) => ({

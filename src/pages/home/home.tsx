@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Bucket } from "../../api/coomon.api";
 import { useTitleStore } from "../../data/store";
 import { Main } from "../../styles/ui/Content";
 
@@ -20,8 +21,7 @@ const Home = () => {
     storeTitle("Home");
   }, []);
   let navigate = useNavigate();
-  const SalonImg1 =
-    "https://salonstore.s3.ap-southeast-1.amazonaws.com/images/salonImg1.jpg";
+  const SalonImg1 = `${Bucket}images/salonImg1.jpg`;
   return (
     <Main css={{ position: "relative" }}>
       <Container xl css={{ position: "relative", h: "85vh" }}>

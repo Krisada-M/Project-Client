@@ -3,6 +3,8 @@ import { resultUser } from "./user.type";
 export type tokenStore = {
   token: string;
   storeToken: (token: string) => void;
+  type: string;
+  storeType: (type: string) => void;
 };
 
 export type titleStore = {

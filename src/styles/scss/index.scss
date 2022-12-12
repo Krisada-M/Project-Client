@@ -4,11 +4,11 @@
   font-family: $font_Regular !important;
 }
 
-*,
-*:after,
-*:before {
-  @include animate(unset);
-}
+// *,
+// *:after,
+// *:before {
+//   @include animate(unset);
+// }
 
 body {
   // @include body;

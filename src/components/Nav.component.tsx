@@ -67,8 +67,8 @@ export const Nav = () => {
   const [LoadingLogin, setLoadingLogin] = useState<boolean>(false);
   const [LoadingRegister, setLoadingRegister] = useState<boolean>(false);
   const [cookies, setCookie, removecookie] = useCookies(["Salon", "userpwd"]);
-  const { token, storeToken } = useTokenStore();
-  const { initAuth, storeInitAuth } = useUserStore();
+  const { storeToken } = useTokenStore();
+  const { initAuth } = useUserStore();
   const { title } = useTitleStore();
   const handler = () => setModalSignup(true);
   const handler2 = () => setModalSignin(true);
@@ -147,10 +147,6 @@ export const Nav = () => {
   };
 
   useEffect(() => {
-    if (cookies.Salon != undefined) {
-      storeToken(cookies.Salon);
-      storeInitAuth("/user/", cookies.Salon);
-    }
     if (cookies.userpwd != undefined) {
       const decrypted = CryptoJS.AES.decrypt(cookies.userpwd, secretKey);
       const decryptedData: signupData = JSON.parse(
