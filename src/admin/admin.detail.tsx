@@ -76,7 +76,7 @@ const AdminDetail = () => {
     removeBarber(cookie.Salon, id)
       .then(() => {
         setDeleteStatus(0);
-        setBdetail([])
+        setBdetail([]);
       })
       .catch((err) => {
         console.log(err);
@@ -189,7 +189,8 @@ const AdminDetail = () => {
                 <Table.Row key={item.key}>
                   {(columnKey) => {
                     let style = columnKey == "status" ? "8px" : "";
-                    const newLocal = item[`${columnKey}`];
+                    let key = columnKey + "";
+                    const newLocal = item[key as "name" |"gender"|"status"|"service"|"bookinginday"|"allbooking"|"action"];
                     return (
                       <Table.Cell css={{ pl: style }}>{newLocal}</Table.Cell>
                     );
