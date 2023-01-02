@@ -1,4 +1,4 @@
-import { Skeleton } from "@mui/lab";
+import Skeleton from '@mui/material/Skeleton';
 import { Card, Col, Row } from "@nextui-org/react";
 
 export const ProfileCardLoad = () => {

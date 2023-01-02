@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import AdminDetail from "./admin/admin.detail";
@@ -27,7 +27,7 @@ function separate(params: string) {
           </Routes>
         </AdminLayout>
       );
-    default:
+    case "USER":
       return (
         <Layout>
           <Routes>
@@ -49,25 +49,29 @@ function separate(params: string) {
 }
 
 const App = () => {
-  const { type } = useTokenStore();
   const [cookies] = useCookies(["Salon"]);
+  const [type, settype] = useState("");
   let navigate = useNavigate();
-  const { storeToken, storeType } = useTokenStore();
+  const { storeToken } = useTokenStore();
   const { storeInitAuth } = useUserStore();
+  console.log(type);
   useEffect(() => {
+    const getType = async (token: string) => {
+      return await Auth(token).get("checktype");
+    };
     if (cookies.Salon != undefined) {
+      getType(cookies.Salon).then((res) => {
+        const userType = res.data.type;
+        if (userType == "ADMIN") {
+          settype(userType);
+        } else {
+          settype(userType);
+          storeInitAuth("/user/", cookies.Salon);
+        }
+      });
       storeToken(cookies.Salon);
-      Auth(cookies.Salon)
-        .get("checktype")
-        .then((res) => {
-          const userType = res.data.type;
-          storeType(userType);
-          if (userType == "ADMIN") {
-            navigate("/");
-          } else {
-            storeInitAuth("/user/", cookies.Salon);
-          }
-        });
+    } else {
+      settype("USER");
     }
   }, [cookies]);
 

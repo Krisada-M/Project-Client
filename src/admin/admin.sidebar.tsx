@@ -1,16 +1,21 @@
 import {
-    Button,
-    Col,
-    Container,
-    Image,
-    Row,
-    styled,
-    Text
+  Button,
+  Col,
+  Container,
+  Image,
+  Row,
+  styled,
+  Switch,
+  Text
 } from "@nextui-org/react";
 import {
-    IconBrandBooking, IconUsers
+  IconBrandBooking,
+  IconUserCheck,
+  IconUserOff,
+  IconUsers
 } from "@tabler/icons";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bucket } from "../api/coomon.api";
 import { useTitleStore } from "../data/store";
@@ -30,7 +35,15 @@ const SideRowMenu = styled(Row, {
   padding: "0",
 });
 
+const SideRowFoot = styled(Row, {
+  position: "absolute",
+  bottom: "$10",
+  left: "2vw",
+  padding: "0",
+});
+
 const Sidebar = () => {
+  const [, , removeCookies] = useCookies(["Salon"]);
   const { storeTitle } = useTitleStore();
   const [first, setfirst] = useState("");
   const [second, setsecond] = useState("");
@@ -64,6 +77,12 @@ const Sidebar = () => {
           <Text h2 color="#fff" css={{ mt: "$5" }}>
             Salon Admin
           </Text>
+          <Switch
+            checked={true}
+            size="sm"
+            iconOn={<IconUserCheck />}
+            iconOff={<IconUserOff />}
+          />
         </Col>
       </SideRowHead>
       <SideRowMenu>
@@ -125,6 +144,18 @@ const Sidebar = () => {
           </Button>
         </Col>
       </SideRowMenu>
+      <SideRowFoot>
+        <Button
+          auto
+          flat
+          color="error"
+          onPress={() => {
+            removeCookies("Salon");
+          }}
+        >
+          <Text size={20}>Log out</Text>
+        </Button>
+      </SideRowFoot>
     </SidebarLayout>
   );
 };
