@@ -294,9 +294,10 @@ const AdminManage = () => {
               <Table.Row key={item.key}>
                 {(columnKey) => {
                   let style = columnKey == "action" ? "266px" : "";
+                  let key = columnKey + "";
                   return (
                     <Table.Cell css={{ w: style }}>
-                      {item[columnKey]}
+                      {item[key as  "booking_id" | "barber_id" | "user_id" | "service" | "date" | "time_start" | "time_end" | "status" | "action"]}
                     </Table.Cell>
                   );
                 }}
