@@ -1,5 +1,5 @@
+import { Avatar } from "@mui/material";
 import {
-  Avatar,
   Button,
   Card,
   Col,
@@ -108,15 +108,8 @@ const ProfileUser = ({ data }: any) => {
                 <Card>
                   <Card.Header>
                     <Grid.Container>
-                      <Grid xs={12}>
-                        <Avatar
-                          className="Avatar"
-                          css={{ size: "$24.5", mb: "$6" }}
-                          src="https://i.pravatar.cc/150?u=a042581f4e25056704b"
-                          color="gradient"
-                          bordered
-                          squared
-                        />
+                      <Grid xs={12} justify="center">
+                        <Avatar sx={{ width: 150, height: 150, my: "1rem" }} />
                       </Grid>
                       <Grid>
                         <Text size={25} h1 b>
