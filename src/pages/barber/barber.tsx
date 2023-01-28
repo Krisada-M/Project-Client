@@ -1,4 +1,12 @@
-import { Col, Dropdown, Grid, Input, Row, Text } from "@nextui-org/react";
+import {
+  Button,
+  Col,
+  Dropdown,
+  Grid,
+  Input,
+  Row,
+  Text
+} from "@nextui-org/react";
 import { IconUserSearch } from "@tabler/icons";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
@@ -14,6 +22,7 @@ const Barber = () => {
   const { storeTitle } = useTitleStore();
   const [iconcolor, setIconColor] = useState<string>("#889096");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [clear, setClear] = useState<boolean>(false);
   const [barberData, setBarberData] = useState<object[]>([]);
   const [serviceListData, setServiceListData] = useState([
     {
@@ -41,11 +50,12 @@ const Barber = () => {
     const barberList = async () => {
       const { data } = await barberListAPI();
       const service = await serviceListAPI();
+      setSelectedGender(new Set(["Select"]));
       setBarberData(data.Data.barber_detail);
       setServiceListData(service.data.Data.service_list);
     };
     barberList();
-  }, []);
+  }, [clear]);
   // live search
   useEffect(() => {
     const barberSearch = async () => {
@@ -60,15 +70,6 @@ const Barber = () => {
   }, [searchValue, selectedGenderValue, selectedServiceValue]);
 
   const dropdownItem = [
-    {
-      title: "Service",
-      itemSelect: serviceListData,
-      variable: {
-        get: selectedService,
-        set: setSelectedService,
-        show: selectedServiceValue,
-      },
-    },
     {
       title: "Gender",
       itemSelect: [{ service_name: "ชาย" }, { service_name: "หญิง" }],
@@ -159,6 +160,18 @@ const Barber = () => {
                     </Col>
                   );
                 })}
+                <Col span={6}>
+                  <Button
+                    auto
+                    color={"error"}
+                    flat
+                    onPress={() => {
+                      setClear(!clear);
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Col>
               </Row>
             </Col>
           </Row>

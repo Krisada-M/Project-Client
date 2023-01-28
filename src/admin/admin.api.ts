@@ -1,5 +1,19 @@
-import { Auth } from "../api/coomon.api";
-import { UpdateBarber, UpdateBooking } from "./admin.model";
+import { Api, Auth } from "../api/coomon.api";
+import type { AddBarberData, UpdateBarber, UpdateBooking } from "./admin.model";
+
+export async function setStatus(status: boolean) {
+  return await Api.post("set-status", {
+    status: status,
+  });
+}
+
+export function addBarber(token: string, data: AddBarberData) {
+  return Auth(token).post("admin/barber-add", data);
+}
+
+export function editBarber(token: string, data: AddBarberData, id: number) {
+  return Auth(token).post(`admin/barber-edit/${id}`, data);
+}
 
 export function getAllBarber(token: string) {
   return Auth(token).get("admin/barber-detail");

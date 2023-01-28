@@ -1,7 +1,5 @@
 import {
-  Avatar,
-  Badge,
-  Button,
+  Avatar, Button,
   Checkbox,
   Col,
   Dropdown,
@@ -17,10 +15,10 @@ import {
   styled,
   Text,
   Tooltip,
+  useInput,
   useTheme
 } from "@nextui-org/react";
 import {
-  IconBell,
   IconChevronLeft,
   IconLock,
   IconMoonStars,
@@ -42,14 +40,22 @@ import {
   useUserStore
 } from "../data/store";
 import { signinData, signupData } from "../types/user.type";
+import EmailInput from "./Input/Email.Input";
+import NameInput from "./Input/Name.Input";
+import PasswordInput from "./Input/Password.Input";
+
 export const Nav = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
   const { open } = useSignupModal();
-  const [modalSignup, setModalSignup] = useState(open);
-  const [modalSignin, setModalSignin] = useState(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
-  const [usernameError, setUsernameError] = useState<boolean>(false);
+  const { value, reset, bindings } = useInput("");
+
+  const [selected, setSelected] = React.useState(new Set(["Gender"]));
+
+  const selectedValue = React.useMemo(
+    () => Array.from(selected).join(", ").replaceAll("_", " "),
+    [selected]
+  );
   const [signup, setSignup] = useState<signupData>({
     username: "",
     password: "",
@@ -59,9 +65,14 @@ export const Nav = () => {
     firstname: "",
     lastname: "",
     password: "",
-    gender: "",
+    gender: selectedValue,
     username: "",
   });
+  const [modalSignup, setModalSignup] = useState(open);
+  const [modalSignin, setModalSignin] = useState(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [usernameError, setUsernameError] = useState<boolean>(false);
+
   const [remember, setRemember] = useState<boolean>(false);
   const [confirm, setconfirm] = useState<boolean>(false);
   const [LoadingLogin, setLoadingLogin] = useState<boolean>(false);
@@ -110,11 +121,8 @@ export const Nav = () => {
         setLoadingLogin(false);
         setModalSignup(false);
       })
-      .catch((err: AxiosError) => {
-        console.log(err.response);
-        toast.error("This is an error!", {
-          position: "bottom-left",
-        });
+      .catch(({ response }: AxiosError<{ Message: string }>) => {
+        toast.error(`${response?.data?.Message}`);
         setLoadingLogin(false);
       });
   };
@@ -128,9 +136,8 @@ export const Nav = () => {
         setModalSignin(false);
         setModalSignup(true);
       })
-      .catch((err: AxiosError) => {
-        console.log(err.response);
-        toast.error("This is an error!");
+      .catch(({ response }: AxiosError<{ Message: string }>) => {
+        toast.error(`${response?.data?.Message}`);
         setLoadingRegister(false);
       });
   };
@@ -261,32 +268,7 @@ export const Nav = () => {
                 />
               </Navbar.Item>
             </Tooltip>
-            <Tooltip
-              trigger="hover"
-              color="primary"
-              content="Notification"
-              placement="bottom"
-            >
-              <Navbar.Item hideIn={"xs"}>
-                <Dropdown>
-                  <Badge color="error" content={5} shape="circle">
-                    <Dropdown.Button
-                      light
-                      color="primary"
-                      auto
-                      size={"sm"}
-                      icon={<IconBell />}
-                    ></Dropdown.Button>
-                  </Badge>
-                  <Dropdown.Menu aria-label="Static Actions">
-                    <Dropdown.Item>Delete file</Dropdown.Item>
-                    <Dropdown.Item key="delete" withDivider>
-                      Delete file
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Navbar.Item>
-            </Tooltip>
+
             <Dropdown placement="bottom-right">
               <Dropdown.Button as={"div"} light ripple={false}>
                 <UserBtn>
@@ -342,12 +324,12 @@ export const Nav = () => {
             </Tooltip>
             <Navbar.Item hideIn={"xs"}>
               <Button auto light onPress={handler2}>
-                Sign In
+                Sign Up
               </Button>
             </Navbar.Item>
             <Navbar.Item>
               <Button auto flat onPress={handler}>
-                Sign Up
+                Sign In
               </Button>
             </Navbar.Item>
           </Navbar.Content>
@@ -431,80 +413,61 @@ export const Nav = () => {
         <Modal.Body>
           <Grid.Container gap={2} justify="center">
             <Grid xs={6}>
-              <Input
-                size="lg"
-                color="primary"
-                bordered
-                placeholder="Fristname"
-                aria-label="signin-firstname"
-                onChange={(e: React.ChangeEvent<FormElement>) =>
-                  setSignin({ ...signin, ...{ firstname: e.target.value } })
-                }
+              <NameInput
+                state={signin}
+                setState={setSignin}
+                nameInput={"Fristname"}
               />
             </Grid>
             <Grid xs={6}>
-              <Input
-                size="lg"
-                color="primary"
-                bordered
-                placeholder="Lastname"
-                aria-label="signin-lastname"
-                onChange={(e: React.ChangeEvent<FormElement>) =>
-                  setSignin({ ...signin, ...{ lastname: e.target.value } })
-                }
+              <NameInput
+                state={signin}
+                setState={setSignin}
+                nameInput={"Lastname"}
               />
             </Grid>
             <Grid xs={7}>
-              <Input
-                size="lg"
-                fullWidth
-                color="primary"
-                bordered
-                placeholder="Username"
-                aria-label="signin-username"
-                onChange={(e: React.ChangeEvent<FormElement>) =>
-                  setSignin({ ...signin, ...{ username: e.target.value } })
-                }
+              <NameInput
+                state={signin}
+                setState={setSignin}
+                nameInput={"Username"}
               />
             </Grid>
             <Grid xs={5}>
-              <Input
-                size="lg"
-                fullWidth
-                color="primary"
-                bordered
-                placeholder="Gender"
-                aria-label="signin-gender"
-                onChange={(e: React.ChangeEvent<FormElement>) =>
-                  setSignin({ ...signin, ...{ gender: e.target.value } })
-                }
-              />
+              <Dropdown>
+                <Dropdown.Button
+                  flat
+                  size={"lg"}
+                  color={
+                    selectedValue == "male" || selectedValue == "female"
+                      ? "success"
+                      : "default"
+                  }
+                  css={{ tt: "capitalize" }}
+                >
+                  {selectedValue}
+                </Dropdown.Button>
+                <Dropdown.Menu
+                  aria-label="signin-gender"
+                  color="primary"
+                  disallowEmptySelection
+                  defaultSelectedKeys="male"
+                  selectionMode="single"
+                  selectedKeys={selected}
+                  onSelectionChange={(e: any) => {
+                    setSelected(e);
+                  }}
+                >
+                  <Dropdown.Item key="male">male</Dropdown.Item>
+                  <Dropdown.Item key="female">female</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Grid>
             <Grid xs={12}>
-              <Input
-                size="lg"
-                fullWidth
-                color="primary"
-                bordered
-                placeholder="Email"
-                aria-label="signin-email"
-                onChange={(e: React.ChangeEvent<FormElement>) =>
-                  setSignin({ ...signin, ...{ email: e.target.value } })
-                }
-              />
+              <EmailInput state={signin} setState={setSignin} />
             </Grid>
             <Grid xs={12}>
-              <Input.Password
-                size="lg"
-                fullWidth
-                color="primary"
-                bordered
-                placeholder="Password"
-                aria-label="signin-password"
-                onChange={(e: React.ChangeEvent<FormElement>) =>
-                  setSignin({ ...signin, ...{ password: e.target.value } })
-                }
-              />
+              <PasswordInput state={signin} setState={setSignin} />
             </Grid>
           </Grid.Container>
         </Modal.Body>

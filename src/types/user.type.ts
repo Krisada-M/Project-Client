@@ -69,3 +69,9 @@ export interface Booking {
   barber_id: number;
   user_id: number;
 }
+
+export interface InputSigninProps {
+  state: signinData<string>;
+  setState: React.Dispatch<React.SetStateAction<signinData<string>>>;
+  nameInput?: string;
+}

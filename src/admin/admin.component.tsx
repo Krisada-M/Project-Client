@@ -17,5 +17,7 @@ const BoxMain = styled(Grid, {
   padding: "$6 $8",
 });
 
+
+
 export { BoxMain, PageColor, Container };
 

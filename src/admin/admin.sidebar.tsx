@@ -18,7 +18,8 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bucket } from "../api/coomon.api";
-import { useTitleStore } from "../data/store";
+import { useAdminOpen, useTitleStore } from "../data/store";
+import { setStatus } from "./admin.api";
 
 const SidebarLayout = styled(Container, {
   backgroundColor: "#252525",
@@ -44,6 +45,7 @@ const SideRowFoot = styled(Row, {
 
 const Sidebar = () => {
   const [, , removeCookies] = useCookies(["Salon"]);
+  const { setOpen } = useAdminOpen();
   const { storeTitle } = useTitleStore();
   const [first, setfirst] = useState("");
   const [second, setsecond] = useState("");
@@ -78,7 +80,11 @@ const Sidebar = () => {
             Salon Admin
           </Text>
           <Switch
-            checked={true}
+            onChange={({ target: { checked } }) => {
+              setOpen(checked);
+              setStatus(checked);
+            }}
+            checked={false}
             size="sm"
             iconOn={<IconUserCheck />}
             iconOff={<IconUserOff />}

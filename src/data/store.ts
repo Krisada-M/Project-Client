@@ -1,8 +1,7 @@
 import create from "zustand";
 import { Api } from "../api/coomon.api";
-import {
-  dataStore,
-  signupModal,
+import type {
+  dataStore, openBarber, signupModal,
   titleStore,
   tokenStore
 } from "../types/store.type";
@@ -34,6 +33,15 @@ export const useTitleStore = create<titleStore>((set) => ({
 export const useSignupModal = create<signupModal>((set) => ({
   open: false,
   storeOpen: (open: boolean) =>
+    set((state) => ({
+      ...state,
+      open,
+    })),
+}));
+
+export const useAdminOpen = create<openBarber>((set) => ({
+  open: false,
+  setOpen: (open: boolean) =>
     set((state) => ({
       ...state,
       open,

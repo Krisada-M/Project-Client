@@ -24,14 +24,24 @@ export type UpdateBarber = {
 
 export type BookingStatus = {
   ID: number;
-  CreatedAt: Date;
-  UpdatedAt: Date;
-  DeletedAt?: any;
   status: string;
   date: string;
   time_start: string;
   time_end: string;
   service: string;
-  barber_id: number;
-  user_id: number;
+  barber: string;
+  user: string;
+  uniqueness_of_hair: string;
+  length_hair: string;
+  hair_thickness: string;
+};
+
+export type AddBarberData<S = string> = {
+  name: S;
+  gender: S;
+  status: S;
+  service1: S;
+  service2: S;
+  service3: S;
+  service4: S;
 };

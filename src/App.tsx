@@ -54,7 +54,6 @@ const App = () => {
   let navigate = useNavigate();
   const { storeToken } = useTokenStore();
   const { storeInitAuth } = useUserStore();
-  console.log(type);
   useEffect(() => {
     const getType = async (token: string) => {
       return await Auth(token).get("checktype");

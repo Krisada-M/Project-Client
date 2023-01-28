@@ -1,6 +1,7 @@
 import {
   Badge,
   Button,
+  Col,
   Grid,
   Loading,
   Row,
@@ -17,6 +18,8 @@ import { useCookies } from "react-cookie";
 import { useTitleStore } from "../data/store";
 import { getAllBarber, removeBarber, updateStatusBarber } from "./admin.api";
 import { BarberDetail } from "./admin.model";
+import AddBarber from "./modals/addBaber.modal";
+import EditBarber from "./modals/editBarber.modal";
 
 const AdminDetail = () => {
   const [cookie] = useCookies(["Salon"]);
@@ -26,6 +29,36 @@ const AdminDetail = () => {
   const [BStatus, setBStatus] = useState(false);
   const [deleteStatus, setDeleteStatus] = useState(0);
   const [Bdetail, setBdetail] = useState<BarberDetail[]>([]);
+  const [addModal, setAddModal] = useState<boolean>(false);
+  const [editModal, setEditModal] = useState<boolean>(false);
+  const [editData, setEditData] = useState<BarberDetail>({
+    allday: "",
+    bookinday: "",
+    id: 0,
+    gender: "",
+    name: "",
+    service1: "",
+    service2: "",
+    service3: "",
+    service4: "",
+    status: "",
+  });
+  const closeAddBarber = (status: boolean) => {
+    if (status) {
+      getAllBarber(cookie.Salon).then((res) => {
+        setBdetail(res.data.Data.barber_detail);
+      });
+    }
+    setAddModal(false);
+  };
+  const closeEditBarber = (status: boolean) => {
+    if (status) {
+      getAllBarber(cookie.Salon).then((res) => {
+        setBdetail(res.data.Data.barber_detail);
+      });
+    }
+    setEditModal(false);
+  };
   const columns = [
     {
       key: "name",
@@ -59,9 +92,7 @@ const AdminDetail = () => {
   useEffect(() => {
     if (BID != 0) {
       updateStatusBarber(cookie.Salon, { id: BID, status: BStatus }).then(
-        (res) => {
-          console.log(res.data.Data);
-        }
+        (_) => {}
       );
     }
   }, [BID, BStatus]);
@@ -122,25 +153,41 @@ const AdminDetail = () => {
         allbooking: data.allday,
         action: (
           <Row>
-            <Button
-              key={data.id}
-              disabled={deleteStatus == data.id}
-              auto
-              onPress={() => {
-                setDeleteStatus(data.id);
-                remove(data.id);
-              }}
-            >
-              {deleteStatus == data.id ? (
-                <Loading
-                  color="currentColor"
-                  size="sm"
-                  css={{ m: "7px !important" }}
-                />
-              ) : (
-                "Delete"
-              )}
-            </Button>
+            <Col span={4}>
+              <Button
+                key={data.id}
+                auto
+                color={"warning"}
+                onPress={() => {
+                  setEditModal(true);
+                  setEditData(data);
+                }}
+              >
+                Edit
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                key={data.id}
+                disabled={deleteStatus == data.id}
+                auto
+                color={"error"}
+                onPress={() => {
+                  setDeleteStatus(data.id);
+                  remove(data.id);
+                }}
+              >
+                {deleteStatus == data.id ? (
+                  <Loading
+                    color="currentColor"
+                    size="sm"
+                    css={{ m: "7px !important" }}
+                  />
+                ) : (
+                  "Delete"
+                )}
+              </Button>
+            </Col>
           </Row>
         ),
       };
@@ -161,12 +208,19 @@ const AdminDetail = () => {
         <Text size={18}>{currentDay}</Text>
       </Row>
       <Spacer y={1} />
-      {/* <Grid.Container>
+      <Grid.Container>
         <Grid xs={12} justify="flex-end">
-          <Button auto>Add Barber</Button>
+          <Button
+            auto
+            onPress={() => {
+              setAddModal(true);
+            }}
+          >
+            Add Barber
+          </Button>
         </Grid>
         <Spacer y={1} />
-      </Grid.Container> */}
+      </Grid.Container>
       <Grid xs={12} justify="center" alignItems="center">
         <Table
           aria-label="Example table with dynamic content"
@@ -190,9 +244,10 @@ const AdminDetail = () => {
                   {(columnKey) => {
                     let style = columnKey == "status" ? "8px" : "";
                     let key = columnKey + "";
-                    const newLocal = item[key as "name" |"gender"|"status"|"service"|"bookinginday"|"allbooking"|"action"];
                     return (
-                      <Table.Cell css={{ pl: style }}>{newLocal}</Table.Cell>
+                      <Table.Cell css={{ pl: style }}>
+                        {item[key as keyof typeof item]}
+                      </Table.Cell>
                     );
                   }}
                 </Table.Row>
@@ -201,6 +256,17 @@ const AdminDetail = () => {
           </Table.Body>
         </Table>
       </Grid>
+      <AddBarber
+        open={addModal}
+        authToken={cookie.Salon}
+        closeHandler={closeAddBarber}
+      />
+      <EditBarber
+        open={editModal}
+        initData={editData}
+        authToken={cookie.Salon}
+        closeHandler={closeEditBarber}
+      />
     </motion.div>
   );
 };

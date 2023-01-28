@@ -9,17 +9,36 @@ import {
   Spacer,
   Text
 } from "@nextui-org/react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bucket } from "../../api/coomon.api";
-import { useTitleStore } from "../../data/store";
+import { statusSalon } from "../../api/service.api";
+import { useAdminOpen, useTitleStore } from "../../data/store";
 import { Main } from "../../styles/ui/Content";
+
+type data = {
+  text: string;
+  textColor: string;
+  color: "default" | "primary" | "secondary" | "success" | "warning" | "error";
+};
 
 const Home = () => {
   const { storeTitle } = useTitleStore();
+  const { open, setOpen } = useAdminOpen();
+
   useEffect(() => {
     storeTitle("Home");
+    statusSalon().then((res) => {
+      setOpen(res.data.status);
+    });
   }, []);
+  const useOpen: data = useMemo(() => {
+    return {
+      text: open ? "Opening" : "Closed",
+      textColor: open ? "success" : "#889096",
+      color: open ? "success" : "default",
+    };
+  }, [open]);
   let navigate = useNavigate();
   const SalonImg1 = `${Bucket}images/salonImg1.jpg`;
   return (
@@ -90,14 +109,19 @@ const Home = () => {
                   justify="center"
                 >
                   <Grid xs={12} alignItems="center" justify="center">
-                    <Badge variant="dot" enableShadow size="lg" />
+                    <Badge
+                      variant="dot"
+                      enableShadow
+                      size="lg"
+                      color={`${useOpen.color}`}
+                    />
                     <Text
-                      color="#889096"
+                      color={`${useOpen.textColor}`}
                       css={{ ml: "$5", mb: "$0" }}
                       size={36}
                       b
                     >
-                      ปิดปรับปรุง
+                      {useOpen.text}
                     </Text>
                   </Grid>
                   <Grid
@@ -205,6 +229,8 @@ const Home = () => {
             <Card css={{ mw: "25vw", mh: "10vh" }}>
               <Card.Body>
                 <Button
+                  disabled={!open}
+                  color={useOpen.color}
                   onPress={() => {
                     navigate("/barber");
                   }}

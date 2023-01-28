@@ -62,7 +62,6 @@ const ForgotPassword = () => {
     userForgotPassword(email)
       .then((res) => {
         setForgotdata(res.data?.Data);
-        console.log(res.data?.Data);
         setLoading(false);
         setModal(true);
       })

@@ -25,3 +25,8 @@ export type dataStore = {
   storeInit: (url: string) => void;
   storeInitAuth: (url: string, tokenAuth: string) => void;
 };
+
+export type openBarber = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+};
