@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const ProfileCard = ({ data }: any) => {
   let navigate = useNavigate();
-  let color = data.detail.gender == "ชาย" ? "$blue700" : "$pink700";
+  let color = data.detail.gender == "male" ? "$blue700" : "$pink700";
   const service = [
     data.detail.service1,
     data.detail.service2,
@@ -40,7 +40,7 @@ export const ProfileCard = ({ data }: any) => {
               <Avatar
                 css={{ size: "4rem" }}
                 icon={
-                  data.detail.gender == "ชาย" ? (
+                  data.detail.gender == "male" ? (
                     <IconMan height={80} color="#0072f5" />
                   ) : (
                     <IconWoman height={80} color="#ff29c2" />

@@ -72,7 +72,7 @@ const Barber = () => {
   const dropdownItem = [
     {
       title: "Gender",
-      itemSelect: [{ service_name: "ชาย" }, { service_name: "หญิง" }],
+      itemSelect: [{ service_name: "male" }, { service_name: "female" }],
       variable: {
         get: selectedGender,
         set: setSelectedGender,

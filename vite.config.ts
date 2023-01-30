@@ -8,7 +8,12 @@ export default ({ mode }) => {
   return defineConfig({
     plugins: [react()],
     server: {
-      port: 3560,
+      watch: {
+        usePolling: true,
+      },
+      host: true,
+      strictPort: true,
+      port: 80,
     },
     build: {
       chunkSizeWarningLimit: 1600,
