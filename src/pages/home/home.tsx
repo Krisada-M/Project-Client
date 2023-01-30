@@ -229,7 +229,7 @@ const Home = () => {
             <Card css={{ mw: "25vw", mh: "10vh" }}>
               <Card.Body>
                 <Button
-                  disabled={!open}
+                  // disabled={!open}
                   color={useOpen.color}
                   onPress={() => {
                     navigate("/barber");
