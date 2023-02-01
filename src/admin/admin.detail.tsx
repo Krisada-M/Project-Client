@@ -146,7 +146,7 @@ const AdminDetail = () => {
         allbooking: data.allday,
         action: (
           <Row>
-            <Col span={4}>
+            <Col span={6}>
               <Button
                 key={data.id}
                 auto

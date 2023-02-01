@@ -53,7 +53,7 @@ const ProfileUser = ({ data }: any) => {
   });
   const changePasswodUser = () => {
     userChangePassword(cookies.Salon, dataChangePassword)
-      .then((res) => {
+      .then((_) => {
         setChangePassword(false);
       })
       .catch((err: AxiosError<{ Message: string }>) => {
@@ -63,9 +63,7 @@ const ProfileUser = ({ data }: any) => {
       });
   };
   const updateUser = () => {
-    updateUserProfile(cookies.Salon, updateProfile).then((res) => {
-      console.log(res);
-    });
+    updateUserProfile(cookies.Salon, updateProfile).then((_) => {});
   };
   const closeUser = () => {
     deleteUser(cookies.Salon).then((res) => {
