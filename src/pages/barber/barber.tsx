@@ -22,6 +22,7 @@ const Barber = () => {
   const { storeTitle } = useTitleStore();
   const [iconcolor, setIconColor] = useState<string>("#889096");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [status, setStatus] = useState<number>(500);
   const [clear, setClear] = useState<boolean>(false);
   const [barberData, setBarberData] = useState<object[]>([]);
   const [serviceListData, setServiceListData] = useState([
@@ -48,10 +49,15 @@ const Barber = () => {
   );
   useEffect(() => {
     const barberList = async () => {
-      const { data } = await barberListAPI();
+      const res = await barberListAPI();
       const service = await serviceListAPI();
+      if (res.status === 200) {
+        setStatus(res.status);
+      } else {
+        setStatus(0);
+      }
       setSelectedGender(new Set(["Select"]));
-      setBarberData(data.Data.barber_detail);
+      setBarberData(res.data.Data.barber_detail);
       setServiceListData(service.data.Data.service_list);
     };
     barberList();
@@ -59,12 +65,17 @@ const Barber = () => {
   // live search
   useEffect(() => {
     const barberSearch = async () => {
-      const { data } = await barberLiveSearch({
+      const res = await barberLiveSearch({
         keyword: searchValue,
         service: selectedServiceValue,
         gender: selectedGenderValue,
       });
-      setBarberData(data.Data.barber_detail);
+      setBarberData(res.data.Data.barber_detail);
+      if (res.status === 200) {
+        setStatus(res.status);
+      } else {
+        setStatus(0);
+      }
     };
     barberSearch();
   }, [searchValue, selectedGenderValue, selectedServiceValue]);
@@ -188,7 +199,7 @@ const Barber = () => {
               }}
             >
               <Grid xl>
-                <ProfileCardLoad />
+                <ProfileCardLoad status={status}/>
               </Grid>
             </motion.div>
           ) : (

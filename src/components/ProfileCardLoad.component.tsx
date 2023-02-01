@@ -1,7 +1,16 @@
-import Skeleton from '@mui/material/Skeleton';
-import { Card, Col, Row } from "@nextui-org/react";
+import Skeleton from "@mui/material/Skeleton";
+import { Card, Col, Row, Text } from "@nextui-org/react";
 
-export const ProfileCardLoad = () => {
+export const ProfileCardLoad = ({ status }: { status: number }) => {
+  if (status == 200) {
+    return (
+      <>
+        <Text h5 color="#C1C8CD" weight="light">
+          ไม่พบข้อมูลของช่าง
+        </Text>
+      </>
+    );
+  }
   return (
     <Card css={{ p: "$6", w: "362px" }} variant="bordered">
       <Card.Header>

@@ -29,7 +29,7 @@ const Home = () => {
   useEffect(() => {
     storeTitle("Home");
     statusSalon().then((res) => {
-      setOpen(true);
+      setOpen(res.data.status);
     });
   }, []);
   const useOpen: data = useMemo(() => {
@@ -59,20 +59,12 @@ const Home = () => {
       rate: 300,
     },
     {
-      service: "สระผม+ไดร์",
-      rate: "-",
-    },
-    {
       service: "ยืดผม",
       rate: 400,
     },
     {
       service: "บำรุงเส้นผม",
       rate: 300,
-    },
-    {
-      service: "ต่อผม",
-      rate: "-",
     },
     {
       service: "อบไอน้ำ",
@@ -162,7 +154,7 @@ const Home = () => {
                   alignItems="center"
                   justify="center"
                   css={{
-                    padding: "$10 $15",
+                    padding: "$10",
                     flexWrap: "wrap",
                   }}
                 >
