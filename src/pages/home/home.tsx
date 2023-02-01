@@ -29,7 +29,7 @@ const Home = () => {
   useEffect(() => {
     storeTitle("Home");
     statusSalon().then((res) => {
-      setOpen(res.data.status);
+      setOpen(true);
     });
   }, []);
   const useOpen: data = useMemo(() => {
@@ -41,6 +41,44 @@ const Home = () => {
   }, [open]);
   let navigate = useNavigate();
   const SalonImg1 = `${Bucket}images/salonImg1.jpg`;
+  const serverList = [
+    {
+      service: "ตัดผม",
+      rate: 80,
+    },
+    {
+      service: "ทำสีผม",
+      rate: 300,
+    },
+    {
+      service: "ทำเล็บ",
+      rate: 100,
+    },
+    {
+      service: "ทาสีเล็บ",
+      rate: 300,
+    },
+    {
+      service: "สระผม+ไดร์",
+      rate: "-",
+    },
+    {
+      service: "ยืดผม",
+      rate: 400,
+    },
+    {
+      service: "บำรุงเส้นผม",
+      rate: 300,
+    },
+    {
+      service: "ต่อผม",
+      rate: "-",
+    },
+    {
+      service: "อบไอน้ำ",
+      rate: 200,
+    },
+  ];
   return (
     <Main css={{ position: "relative" }}>
       <Container xl css={{ position: "relative", h: "85vh" }}>
@@ -102,111 +140,59 @@ const Home = () => {
             }}
           >
             <Card css={{ mw: "25vw", h: "60vh" }}>
-              <Card.Body>
-                <Grid.Container
-                  css={{ mt: "$15" }}
+              <Card.Body css={{ oy: "hidden" }}>
+                <Grid xs={12} alignItems="center" justify="center">
+                  <Badge
+                    variant="dot"
+                    enableShadow
+                    size="lg"
+                    color={`${useOpen.color}`}
+                  />
+                  <Text
+                    color={`${useOpen.textColor}`}
+                    css={{ ml: "$5", mb: "$0" }}
+                    size={36}
+                    b
+                  >
+                    {useOpen.text}
+                  </Text>
+                </Grid>
+                <Grid
+                  xs={12}
                   alignItems="center"
                   justify="center"
+                  css={{
+                    padding: "$10 $15",
+                    flexWrap: "wrap",
+                  }}
                 >
-                  <Grid xs={12} alignItems="center" justify="center">
-                    <Badge
-                      variant="dot"
-                      enableShadow
-                      size="lg"
-                      color={`${useOpen.color}`}
-                    />
-                    <Text
-                      color={`${useOpen.textColor}`}
-                      css={{ ml: "$5", mb: "$0" }}
-                      size={36}
-                      b
-                    >
-                      {useOpen.text}
-                    </Text>
-                  </Grid>
-                  <Grid
-                    xs={12}
-                    alignItems="center"
-                    justify="center"
-                    css={{
-                      mt: "60px",
-                      p: "$10 $15 $0 $15",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <Row justify="space-between">
-                      <Col span={12}>
-                        <Text size={18} b>
-                          สระ ยืด
-                        </Text>
-                      </Col>
-                      <Col span={4}>
-                        <Text
-                          size={18}
-                          b
-                          css={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                          }}
-                        >
-                          บาท
-                        </Text>
-                      </Col>
-                    </Row>
-                    <Spacer y={0.5} />
-                    <Row justify="space-between">
-                      <Col span={12}>
-                        <Text size={18} b>
-                          ทำสีผม
-                        </Text>
-                      </Col>
-                      <Col span={4}>
-                        <Text
-                          size={18}
-                          b
-                          css={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                          }}
-                        >
-                          บาท
-                        </Text>
-                      </Col>
-                    </Row>
-                    <Spacer y={0.5} />
-                    <Row justify="space-between">
-                      <Col span={12}>
-                        <Text size={18} b>
-                          ตัดผม
-                        </Text>
-                      </Col>
-                      <Col
-                        span={4}
-                        css={{ display: "flex", justifyContent: "flex-end" }}
-                      >
-                        <Text size={18} b>
-                          บาท
-                        </Text>
-                      </Col>
-                    </Row>
-                    <Spacer y={0.5} />
-                    <Row justify="space-between">
-                      <Col span={12}>
-                        <Text size={18} b>
-                          ทำเล็บ
-                        </Text>
-                      </Col>
-                      <Col
-                        span={4}
-                        css={{ display: "flex", justifyContent: "flex-end" }}
-                      >
-                        <Text size={18} b>
-                          บาท
-                        </Text>
-                      </Col>
-                    </Row>
-                  </Grid>
-                </Grid.Container>
+                  {serverList.map((item: typeof serverList[0], index) => {
+                    return (
+                      <>
+                        <Row justify="space-between">
+                          <Col span={12}>
+                            <Text size={18} b>
+                              {item.service}
+                            </Text>
+                          </Col>
+                          <Col span={4}>
+                            <Text
+                              size={18}
+                              b
+                              css={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
+                            >
+                              {`${item.rate} บาท`}
+                            </Text>
+                          </Col>
+                        </Row>
+                        <Spacer y={0.5} />
+                      </>
+                    );
+                  })}
+                </Grid>
               </Card.Body>
             </Card>
           </Col>

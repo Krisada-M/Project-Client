@@ -116,6 +116,13 @@ const ProfileBarber = () => {
       });
     }
   };
+  function boolTextarea(): boolean {
+    let set = false;
+    if (selectedValue.search("เล็บ") != -1) {
+      set = true;
+    }
+    return set;
+  }
   return (
     <Motion>
       <Main
@@ -410,6 +417,7 @@ const ProfileBarber = () => {
                                 <Input
                                   label="ลักษณะของเส้นผม"
                                   fullWidth
+                                  disabled={boolTextarea()}
                                   placeholder="e.g. ผมหนา ผมบาง ผมหยักศก"
                                   aria-label="1"
                                   onChange={({ target }) => {
@@ -420,6 +428,7 @@ const ProfileBarber = () => {
                               <Grid xs={6}>
                                 <Input
                                   label="ความยาวของเส้นผม"
+                                  disabled={boolTextarea()}
                                   fullWidth
                                   placeholder="e.g. เป็นเซนติเมตรหรือ ประบ่า"
                                   aria-label="1"
@@ -431,6 +440,7 @@ const ProfileBarber = () => {
                               <Grid xs={6}>
                                 <Textarea
                                   label="ลักษณะทรงผมปัจจุบัน"
+                                  disabled={boolTextarea()}
                                   fullWidth
                                   placeholder="ลักษณะทรงผมปัจจุบัน"
                                   onChange={({ target }) => {
@@ -441,7 +451,11 @@ const ProfileBarber = () => {
                             </Grid.Container>
                           </Grid>
                           <Grid xs={12} justify="flex-end" css={{ mt: "$10" }}>
-                            <Button size="sm" onPress={BookingService} disabled={textBookBTN=="Wait Admin"}>
+                            <Button
+                              size="sm"
+                              onPress={BookingService}
+                              disabled={textBookBTN == "Wait Admin"}
+                            >
                               {textBookBTN}
                             </Button>
                           </Grid>

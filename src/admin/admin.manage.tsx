@@ -141,9 +141,9 @@ const AdminManage = () => {
                 auto
                 color="error"
                 onPress={() => {
+                  setID(data.ID);
                   setUpdateBooking("unapproved");
                   setUnapprove(data.ID);
-                  setID(data.ID);
                 }}
               >
                 {data.ID == ID &&
@@ -190,9 +190,9 @@ const AdminManage = () => {
                 auto
                 color="warning"
                 onPress={() => {
+                  setID(data.ID);
                   setUpdateBooking("pending");
                   setUnapprove(data.ID);
-                  setID(data.ID);
                 }}
               >
                 {data.ID == ID && apiStatus != 200 ? (
@@ -235,13 +235,13 @@ const AdminManage = () => {
       case "unapproved": {
         return (
           <Row gap={0.2}>
-            <Col span={3}>
+            <Col span={4}>
               <Button
                 color="error"
                 auto
                 onPress={() => {
-                  removeBook(data.ID);
                   setID(data.ID);
+                  removeBook(data.ID);
                 }}
               >
                 {data.ID == ID && apiStatus != 200 ? (
