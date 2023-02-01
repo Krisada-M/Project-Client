@@ -1,5 +1,6 @@
 import {
-  Avatar, Button,
+  Avatar,
+  Button,
   Checkbox,
   Col,
   Dropdown,
@@ -68,6 +69,9 @@ export const Nav = () => {
     gender: selectedValue,
     username: "",
   });
+  useEffect(() => {
+    setSignin({ ...signin, gender: `${selectedValue}` });
+  }, [selectedValue]);
   const [modalSignup, setModalSignup] = useState(open);
   const [modalSignin, setModalSignin] = useState(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);

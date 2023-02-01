@@ -1,9 +1,13 @@
 import create from "zustand";
+import { BarberDetail } from "../admin/admin.model";
 import { Api } from "../api/coomon.api";
 import type {
-  dataStore, openBarber, signupModal,
+  dataStore,
+  openBarber,
+  signupModal,
   titleStore,
-  tokenStore
+  tokenStore,
+  UpdateBarber
 } from "../types/store.type";
 
 export const useTokenStore = create<tokenStore>((set) => ({
@@ -27,6 +31,26 @@ export const useTitleStore = create<titleStore>((set) => ({
     set((state) => ({
       ...state,
       title,
+    })),
+}));
+
+export const useUpdatebarber = create<UpdateBarber>((set) => ({
+  dataUser: {
+    allday: "",
+    bookinday: "",
+    id: 0,
+    gender: "",
+    name: "",
+    service1: "",
+    service2: "",
+    service3: "",
+    service4: "",
+    status: "",
+  },
+  setDataUser: (dataUser: BarberDetail) =>
+    set((state) => ({
+      ...state,
+      dataUser,
     })),
 }));
 

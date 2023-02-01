@@ -1,3 +1,4 @@
+import { BarberDetail } from "../admin/admin.model";
 import { resultUser } from "./user.type";
 
 export type tokenStore = {
@@ -29,4 +30,9 @@ export type dataStore = {
 export type openBarber = {
   open: boolean;
   setOpen: (open: boolean) => void;
+};
+
+export type UpdateBarber = {
+  dataUser: BarberDetail;
+  setDataUser: (dataUser: BarberDetail) => void;
 };

@@ -6,7 +6,6 @@ import {
   Container,
   Grid,
   Row,
-  Spacer,
   Text
 } from "@nextui-org/react";
 import { useEffect, useMemo } from "react";
@@ -160,28 +159,29 @@ const Home = () => {
                 >
                   {serverList.map((item: typeof serverList[0], index) => {
                     return (
-                      <>
-                        <Row justify="space-between">
-                          <Col span={12}>
-                            <Text size={18} b>
-                              {item.service}
-                            </Text>
-                          </Col>
-                          <Col span={4}>
-                            <Text
-                              size={18}
-                              b
-                              css={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                              }}
-                            >
-                              {`${item.rate} บาท`}
-                            </Text>
-                          </Col>
-                        </Row>
-                        <Spacer y={0.5} />
-                      </>
+                      <Row
+                        justify="space-between"
+                        key={index + 1}
+                        css={{ mb: "15px" }}
+                      >
+                        <Col span={12}>
+                          <Text size={18} b>
+                            {item.service}
+                          </Text>
+                        </Col>
+                        <Col span={4}>
+                          <Text
+                            size={18}
+                            b
+                            css={{
+                              display: "flex",
+                              justifyContent: "flex-end",
+                            }}
+                          >
+                            {`${item.rate} บาท`}
+                          </Text>
+                        </Col>
+                      </Row>
                     );
                   })}
                 </Grid>

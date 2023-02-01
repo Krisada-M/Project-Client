@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useTitleStore } from "../data/store";
+import { useTitleStore, useUpdatebarber } from "../data/store";
 import { getAllBarber, removeBarber, updateStatusBarber } from "./admin.api";
 import { BarberDetail } from "./admin.model";
 import AddBarber from "./modals/addBaber.modal";
@@ -24,6 +24,7 @@ import EditBarber from "./modals/editBarber.modal";
 const AdminDetail = () => {
   const [cookie] = useCookies(["Salon"]);
   const { storeTitle } = useTitleStore();
+  const { setDataUser } = useUpdatebarber();
   const currentDay = moment(new Date()).format("DD/MM/YYYY");
   const [BID, setBID] = useState(0);
   const [BStatus, setBStatus] = useState(false);
@@ -31,18 +32,6 @@ const AdminDetail = () => {
   const [Bdetail, setBdetail] = useState<BarberDetail[]>([]);
   const [addModal, setAddModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
-  const [editData, setEditData] = useState<BarberDetail>({
-    allday: "",
-    bookinday: "",
-    id: 0,
-    gender: "",
-    name: "",
-    service1: "",
-    service2: "",
-    service3: "",
-    service4: "",
-    status: "",
-  });
   const closeAddBarber = (status: boolean) => {
     if (status) {
       getAllBarber(cookie.Salon).then((res) => {
@@ -102,12 +91,16 @@ const AdminDetail = () => {
     getAllBarber(cookie.Salon).then((res) => {
       setBdetail(res.data.Data.barber_detail);
     });
-  }, [deleteStatus]);
+  }, []);
+
   function remove(id: number) {
     removeBarber(cookie.Salon, id)
       .then(() => {
-        setDeleteStatus(0);
         setBdetail([]);
+        setDeleteStatus(0);
+        getAllBarber(cookie.Salon).then((res) => {
+          setBdetail(res.data.Data.barber_detail);
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -159,8 +152,8 @@ const AdminDetail = () => {
                 auto
                 color={"warning"}
                 onPress={() => {
+                  setDataUser(data);
                   setEditModal(true);
-                  setEditData(data);
                 }}
               >
                 Edit
@@ -204,7 +197,7 @@ const AdminDetail = () => {
     >
       <Spacer y={1} />
       <Row justify="space-between" align="flex-start">
-        <h1>AdminDetail</h1>
+        <h1>Admin Detail</h1>
         <Text size={18}>{currentDay}</Text>
       </Row>
       <Spacer y={1} />
@@ -263,7 +256,6 @@ const AdminDetail = () => {
       />
       <EditBarber
         open={editModal}
-        initData={editData}
         authToken={cookie.Salon}
         closeHandler={closeEditBarber}
       />

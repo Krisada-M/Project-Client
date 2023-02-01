@@ -9,43 +9,31 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
 import { serviceListAPI } from "../../api/service.api";
+import { useUpdatebarber } from "../../data/store";
 import { editBarber } from "../admin.api";
-import { BarberDetail } from "../admin.model";
 import DropdownService from "./components/dropdown.component";
 
 interface props {
   open: boolean;
   authToken: string;
-  initData: BarberDetail;
   closeHandler: (status: boolean) => void;
 }
 
-const EditBarber = ({
-  open,
-  initData,
-  authToken,
-  closeHandler,
-}: props): JSX.Element => {
+const EditBarber = ({ open, authToken, closeHandler }: props): JSX.Element => {
+  const { dataUser } = useUpdatebarber();
+  const [newBarber, setNewBarber] = useState(dataUser);
   const [serviceListData, setServiceListData] = useState([
     {
       service_name: "",
     },
   ]);
   const [apiStatus, setApiStatus] = useState(false);
-  const [selected, setSelected] = useState(new Set([initData.gender ?? "Select"]));
+  const [selected, setSelected] = useState(new Set(["Select"]));
   const selectedValue = useMemo(
     () => Array.from(selected).join(", ").replaceAll("_", " "),
     [selected]
   );
-  const [newBarber, setNewBarber] = useState({
-    name: initData.name,
-    gender: initData.gender,
-    status: "online",
-    service1: initData.service1,
-    service2: initData.service2,
-    service3: initData.service3,
-    service4: initData.service4,
-  });
+
   useEffect(() => {
     const barberList = async () => {
       const service = await serviceListAPI();
@@ -57,31 +45,35 @@ const EditBarber = ({
     setNewBarber({ ...newBarber, gender: selectedValue });
   }, [selectedValue]);
 
+  useEffect(() => {
+    setNewBarber(dataUser);
+  }, [dataUser]);
+
   const dropdownItem = [
     {
       key: 1,
-      initService: initData.service1,
+      initService: dataUser.service1,
       setdata: (e: string) => {
         setNewBarber({ ...newBarber, service1: e });
       },
     },
     {
       key: 2,
-      initService: initData.service2,
+      initService: dataUser.service2,
       setdata: (e: string) => {
         setNewBarber({ ...newBarber, service2: e });
       },
     },
     {
       key: 3,
-      initService: initData.service3,
+      initService: dataUser.service3,
       setdata: (e: string) => {
         setNewBarber({ ...newBarber, service3: e });
       },
     },
     {
       key: 4,
-      initService: initData.service4,
+      initService: dataUser.service4,
       setdata: (e: string) => {
         setNewBarber({ ...newBarber, service4: e });
       },
@@ -89,7 +81,7 @@ const EditBarber = ({
   ];
   async function EditBarberApi() {
     setApiStatus(true);
-    const { data } = await editBarber(authToken, newBarber, initData.id);
+    const { data } = await editBarber(authToken, newBarber, dataUser.id);
     if (data) {
       setApiStatus(false);
       closeHandler(true);
@@ -114,7 +106,7 @@ const EditBarber = ({
           <Grid xs justify="flex-start">
             <Input
               aria-label="input"
-              value={initData.name}
+              value={dataUser.name}
               clearable
               bordered
               fullWidth

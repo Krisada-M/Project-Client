@@ -14,12 +14,14 @@ export function userRegister({
   firstname,
   lastname,
   password,
+  gender,
   username,
 }: signinData) {
   return Api.post("/register ", {
     email: email,
     firstname: firstname,
     lastname: lastname,
+    gender: gender,
     password: password,
     username: username,
     user_type: "USER",
