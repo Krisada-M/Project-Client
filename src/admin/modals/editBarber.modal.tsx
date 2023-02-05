@@ -162,6 +162,12 @@ const EditBarber = ({ open, authToken, closeHandler }: props): JSX.Element => {
                     <DropdownService
                       init={data.initService}
                       serviceListData={serviceListData}
+                      blockKeys={[
+                        newBarber.service1,
+                        newBarber.service2,
+                        newBarber.service3,
+                        newBarber.service4,
+                      ]}
                       handleChange={(e) => {
                         data.setdata(e);
                       }}

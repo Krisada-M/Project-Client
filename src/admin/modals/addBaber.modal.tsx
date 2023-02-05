@@ -156,6 +156,12 @@ const AddBarber = ({ open, authToken, closeHandler }: props): JSX.Element => {
                   </Grid>
                   <Grid xs alignItems="center">
                     <DropdownService
+                      blockKeys={[
+                        newBarber.service1,
+                        newBarber.service2,
+                        newBarber.service3,
+                        newBarber.service4,
+                      ]}
                       serviceListData={serviceListData}
                       handleChange={(e) => {
                         data.setdata(e);

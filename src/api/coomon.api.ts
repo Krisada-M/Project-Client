@@ -1,17 +1,18 @@
 import axios from "axios";
 
+const baseURL = `${import.meta.env.VITE_BASE_API}/app-json/v1/`;
+export const Bucket = import.meta.env.VITE_BUCKET_API;
+
 const Api = axios.create({
-  baseURL: `${import.meta.env.VITE_BASE_API}/app-json/v1/`,
+  baseURL: baseURL,
   headers: {
     "Content-type": "application/json",
   },
 });
 
-export const Bucket = import.meta.env.VITE_BUCKET_API;
-
 function Auth(token: string) {
   return axios.create({
-    baseURL: `${import.meta.env.VITE_BASE_API}/app-json/v1/`,
+    baseURL: baseURL,
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -21,7 +22,7 @@ function Auth(token: string) {
 
 function AuthCustom({ token }: { token: string }) {
   return axios.create({
-    baseURL: import.meta.env.VITE_BASE_API,
+    baseURL: baseURL,
     headers: {
       "Content-type": "application/json",
       userToken: token,

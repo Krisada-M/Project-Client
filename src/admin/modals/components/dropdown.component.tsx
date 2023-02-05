@@ -3,10 +3,12 @@ import { useEffect, useMemo, useState } from "react";
 
 const DropdownService = ({
   init,
+  blockKeys,
   serviceListData,
   handleChange,
 }: {
   init?: string;
+  blockKeys: string[];
   serviceListData: {
     service_name: string;
   }[];
@@ -35,6 +37,7 @@ const DropdownService = ({
         </Dropdown.Button>
         <Dropdown.Menu
           aria-label="Multiple selection actions"
+          disabledKeys={blockKeys}
           color="primary"
           disallowEmptySelection
           selectionMode="single"

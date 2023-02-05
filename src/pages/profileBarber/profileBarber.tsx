@@ -23,6 +23,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { barberProfile } from "../../api/barber.api";
 import { bookingServiceAPI, serviceListAPI } from "../../api/service.api";
+import TimeInput from "../../components/Input/Time.Input";
 import { useSignupModal, useTitleStore, useUserStore } from "../../data/store";
 import { Main } from "../../styles/ui/Content";
 import { Motion } from "../../styles/ui/Layout";
@@ -399,18 +400,9 @@ const ProfileBarber = () => {
                                 </Dropdown>
                               </Grid>
                               <Grid xs={6}>
-                                <Input
-                                  required
-                                  label="เลือก เวลา"
-                                  fullWidth
-                                  placeholder="เลือก เวลา"
-                                  type="time"
-                                  aria-label="1"
-                                  initialValue="09:00"
-                                  max="18:00"
-                                  onChange={({ target }) => {
-                                    setTimeStart(target.value);
-                                  }}
+                                <TimeInput
+                                  state={timeStart}
+                                  setState={setTimeStart}
                                 />
                               </Grid>
                               <Grid xs={6}>

@@ -75,3 +75,8 @@ export interface InputSigninProps {
   setState: React.Dispatch<React.SetStateAction<signinData<string>>>;
   nameInput?: string;
 }
+export interface InputTimeProps {
+  state: string;
+  setState: React.Dispatch<React.SetStateAction<string>>;
+  nameInput?: string;
+}

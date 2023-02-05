@@ -5,7 +5,7 @@ import { InputSigninProps } from "../../types/user.type";
 const NameInput = ({ state, setState, nameInput }: InputSigninProps) => {
   const { value, reset, bindings } = useInput("");
   const validate = (value: string) => {
-    return value.length > 5 && value.length < 15;
+    return value.length > 2 && value.length < 15;
   };
 
   const helper = useMemo(() => {
@@ -30,7 +30,7 @@ const NameInput = ({ state, setState, nameInput }: InputSigninProps) => {
       }
     }
     return {
-      text: isValid ? `Correct ${nameInput} !` : "Enter 6-8 character",
+      text: isValid ? `Correct ${nameInput} !` : "Enter 2-8 character",
       color: isValid ? "success" : "error",
     };
   }, [value]);
